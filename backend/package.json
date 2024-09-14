@@ -5,7 +5,9 @@
   "scripts": {
     "build": "rimraf ./build && tsc",
     "start": "node build/server.js",
-    "dev": "ts-node-dev src/server.ts"
+    "dev": "ts-node-dev src/server.ts",
+    "prestart": "npm run db:create",
+    "db:reset": "npx tsc && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,7 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/sequelize": "^4.28.20",
+    "sequelize-cli": "^6.6.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.6.2"
   },
