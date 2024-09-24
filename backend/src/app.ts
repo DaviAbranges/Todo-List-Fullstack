@@ -1,6 +1,7 @@
 import * as express from "express";
 //import "express-async-errors";
 import router from "./routes";
+// import router from "./routes";
 // import errorMiddleware from "./middlewares/errorMiddleware";
 
 class App {
@@ -10,7 +11,8 @@ class App {
     this.app = express();
 
     this.config();
-
+    this.app.get("/", (req, res) => res.json({ ok: true }));
+    this.routes();
     this.app.get("/", (req, res) => res.json({ ok: true }));
     this.routes();
   }

@@ -16,6 +16,7 @@ export default {
         role: "admin",
         password:
           "$2a$12$ZHMkdkgcvSHLRSkMlwLBJuHCSXe8goMFvdtsLmelNoR8t.nubZLN.",
+
       },
     ]);
   },
