@@ -1,3 +1,4 @@
+import { IUsers } from "../interfaces/users/IUser";
 import { ServiceResponse } from "../interfaces/ServiceResponse";
 import { IUserModel } from "../interfaces/users/IUserModel";
 import UserModel from "../models/UserModel";
@@ -34,5 +35,21 @@ export default class UserServices {
     const token = jwt.sign(payload, secret, { expiresIn: "5h" });
 
     return { status: "SUCCESSFUL", data: { token } };
+  }
+
+  public async createUser(
+    userData: Omit<IUsers, "id">
+  ): Promise<ServiceResponse<IUsers>> {
+    const existingUser = await this.userModel.findByEmail(userData.email);
+    if (existingUser) {
+      return { status: "CONFLICT", data: { message: "Email already in use" } };
+    }
+    const hashedPassword = bcrypt.hashSync(userData.password, 10);
+    const newUser = await this.userModel.createUser({
+      ...userData,
+      password: hashedPassword,
+    });
+
+    return { status: "CREATED", data: newUser };
   }
 }

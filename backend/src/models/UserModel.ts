@@ -15,4 +15,9 @@ export default class UserModel implements IUserModel {
     if (!dbData) return null;
     return dbData;
   }
+
+  async createUser(userData: Omit<IUsers, "id">): Promise<IUsers> {
+    const newUser = await this.model.create(userData);
+    return newUser;
+  }
 }

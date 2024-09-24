@@ -6,8 +6,14 @@ const router = Router();
 
 const userController = new UserController();
 
-router.post("/", LoginValidate.validateLogin, (req: Request, res: Response) =>
-  userController.login(req, res)
+router.post(
+  "/login",
+  LoginValidate.validateLogin,
+  (req: Request, res: Response) => userController.login(req, res)
+);
+
+router.post("/create", (req: Request, res: Response) =>
+  userController.createUser(req, res)
 );
 
 export default router;
