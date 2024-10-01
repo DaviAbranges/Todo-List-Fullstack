@@ -1,5 +1,4 @@
 import { QueryInterface } from "sequelize";
-import { username } from "../config/database";
 
 export default {
   up: async (queryInterface: QueryInterface) => {
@@ -15,7 +14,9 @@ export default {
         username: "Example User",
         email: "example@email.com",
         role: "admin",
-        password: "c33367701511b4f6020ec61ded352059",
+        password:
+          "$2a$12$ZHMkdkgcvSHLRSkMlwLBJuHCSXe8goMFvdtsLmelNoR8t.nubZLN.",
+
       },
     ]);
   },
