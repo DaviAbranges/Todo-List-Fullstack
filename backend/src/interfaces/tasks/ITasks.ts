@@ -1,5 +1,5 @@
 export interface ITasks {
-  id: number;
+  id?: number;
   name: string;
   status: string;
   userId: number;

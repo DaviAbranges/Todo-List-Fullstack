@@ -38,8 +38,6 @@ export default class AuthMiddleware {
         throw new Error("Invalid user data");
       }
 
-      console.log("data 2");
-
       return next();
     } catch (error) {
       return next("ERRO NO AUTH");

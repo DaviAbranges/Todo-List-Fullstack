@@ -11,4 +11,15 @@ export default class TaskModel implements ITaskModel {
     });
     return data;
   }
+
+  async create(data: Omit<ITasks, "id">): Promise<ITasks> {
+    const newTask = await this.model.create({
+      name: data.name,
+      status: data.status,
+      createdAt: data.createdAt,
+      userId: data.userId,
+    });
+
+    return newTask;
+  }
 }

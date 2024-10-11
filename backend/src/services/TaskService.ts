@@ -12,4 +12,20 @@ export default class TaskService {
 
     return { status: "SUCCESSFUL", data: tasks };
   }
+
+  public async create(
+    name: string,
+    userId: number
+  ): Promise<ServiceResponse<ITasks>> {
+    const createdAt = new Date();
+    const status = "pending";
+    const newTask = await this.taskModel.create({
+      name,
+      status,
+      createdAt,
+      userId,
+    });
+
+    return { status: "SUCCESSFUL", data: newTask };
+  }
 }
