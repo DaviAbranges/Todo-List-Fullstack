@@ -20,4 +20,14 @@ export default class UserModel implements IUserModel {
     const newUser = await this.model.create(userData);
     return newUser;
   }
+
+  async findById(id: number): Promise<IUsers | null> {
+    const dbData = await this.model.findOne({
+      where: { id },
+      attributes: { exclude: ["password"] },
+    });
+
+    if (!dbData) return null;
+    return dbData;
+  }
 }

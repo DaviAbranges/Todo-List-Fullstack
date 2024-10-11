@@ -6,14 +6,14 @@ export default {
       {
         name: "Sample Task 1",
         status: "pending",
-        user_id: 1,
-        createdAt: new Date(),
+        user_id: 2,
+        created_at: new Date(),
       },
       {
         name: "Sample Task 2",
         status: "completed",
         user_id: 2,
-        createdAt: new Date(),
+        created_at: new Date(),
       },
     ]);
   },
