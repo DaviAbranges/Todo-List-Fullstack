@@ -22,4 +22,31 @@ export default class TaskModel implements ITaskModel {
 
     return newTask;
   }
+
+  async findById(id: number, userId: number): Promise<ITasks | null> {
+    const dbData = await this.model.findOne({
+      where: { id, userId },
+    });
+
+    if (!dbData) return null;
+    return dbData;
+  }
+
+  async update(
+    data: { name: string; status: string },
+    id: number,
+    userId: number
+  ): Promise<ITasks | null> {
+    const [affectedCount, affectedRows] = await this.model.update(data, {
+      where: { id, userId },
+      returning: true,
+    });
+
+    if (affectedCount === 0) return null;
+    return affectedRows[0];
+  }
+
+  async delete(id: number, userId: number): Promise<void> {
+    await this.model.destroy({ where: { id, userId } });
+  }
 }

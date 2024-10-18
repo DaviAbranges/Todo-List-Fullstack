@@ -8,7 +8,7 @@ export default class TaskService {
 
   public async getAll(userId: number): Promise<ServiceResponse<ITasks[]>> {
     const tasks = await this.taskModel.findAll(userId);
-    console.log("cheguei no get all");
+    // console.log("cheguei no get all");
 
     return { status: "SUCCESSFUL", data: tasks };
   }
@@ -27,5 +27,54 @@ export default class TaskService {
     });
 
     return { status: "SUCCESSFUL", data: newTask };
+  }
+
+  public async getById(
+    id: number,
+    userId: number
+  ): Promise<ServiceResponse<ITasks>> {
+    const user = await this.taskModel.findById(id, userId);
+    // console.log("resultado getbyid", user);
+
+    if (!user) {
+      return { status: "NOT_FOUND", data: { message: "Task nosdat found" } };
+    }
+
+    return { status: "SUCCESSFUL", data: user };
+  }
+
+  public async update(
+    id: number,
+    userId: number,
+    name: string,
+    status: string
+  ): Promise<ServiceResponse<ITasks>> {
+    const task = await this.taskModel.findById(id, userId);
+    if (!task) {
+      return { status: "NOT_FOUND", data: { message: "Task not found" } };
+    }
+
+    const updatedTask = await this.taskModel.update(
+      { name, status },
+      id,
+      userId
+    );
+    return { status: "SUCCESSFUL", data: updatedTask! };
+  }
+
+  public async delete(
+    id: number,
+    userId: number
+  ): Promise<ServiceResponse<{ message: string }>> {
+    const task = await this.taskModel.findById(id, userId);
+    if (!task) {
+      return { status: "NOT_FOUND", data: { message: "Task not found" } };
+    }
+
+    await this.taskModel.delete(id, userId);
+    return {
+      status: "SUCCESSFUL",
+      data: { message: "Task deleted successfully" },
+    };
   }
 }

@@ -14,8 +14,8 @@ class SequelizeTask extends Model<
 > {
   declare id: CreationOptional<number>;
   declare name: string;
-  declare status: string; // Ajuste conforme necessário
-  declare userId: number; // FK id da tabela users
+  declare status: string;
+  declare userId: number;
   declare createdAt: CreationOptional<Date>;
 }
 
@@ -33,7 +33,7 @@ SequelizeTask.init(
     },
     status: {
       allowNull: false,
-      type: DataTypes.STRING, // Ajuste conforme necessário
+      type: DataTypes.STRING,
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -60,7 +60,7 @@ SequelizeTask.init(
 );
 
 SequelizeTask.belongsTo(SequelizeUser, {
-  foreignKey: "userId", // Use o nome correto da chave estrangeira
-  as: "user", // Aqui você pode definir um alias, se necessário
+  foreignKey: "userId",
+  as: "user",
 });
 export default SequelizeTask;

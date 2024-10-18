@@ -55,7 +55,6 @@ export default class UserServices {
 
   public async getById(id: number): Promise<ServiceResponse<IUsers>> {
     const user = await this.userModel.findById(id);
-    // console.log("cheguei no getid", user);
 
     if (!user) {
       return { status: "NOT_FOUND", data: { message: "Id não encontrado" } };
