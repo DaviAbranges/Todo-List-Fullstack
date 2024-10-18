@@ -4,6 +4,7 @@ export default {
   up: async (queryInterface: QueryInterface) => {
     await queryInterface.bulkInsert("users", [
       {
+        id: 1,
         username: "Admin",
         role: "admin",
         email: "admin@admin.com",

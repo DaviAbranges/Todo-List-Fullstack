@@ -30,7 +30,7 @@ export default class UserServices {
         data: { message: "SERVICE Invalid email or password" },
       };
     }
-    const payload = { sub: user.id, role: user.role, email: user.email };
+    const payload = { userId: user.id, role: user.role, email: user.email };
     const secret = process.env.JWT_SECRET ?? "algum secret";
     const token = jwt.sign(payload, secret, { expiresIn: "5h" });
 
@@ -51,5 +51,15 @@ export default class UserServices {
     });
 
     return { status: "CREATED", data: newUser };
+  }
+
+  public async getById(id: number): Promise<ServiceResponse<IUsers>> {
+    const user = await this.userModel.findById(id);
+
+    if (!user) {
+      return { status: "NOT_FOUND", data: { message: "Id não encontrado" } };
+    }
+
+    return { status: "SUCCESSFUL", data: user };
   }
 }

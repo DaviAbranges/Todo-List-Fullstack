@@ -12,8 +12,10 @@ router.post(
   (req: Request, res: Response) => userController.login(req, res)
 );
 
-router.post("/create", (req: Request, res: Response) =>
-  userController.createUser(req, res)
+router.post(
+  "/register",
+  LoginValidate.validateLogin,
+  (req: Request, res: Response) => userController.createUser(req, res)
 );
 
 export default router;
