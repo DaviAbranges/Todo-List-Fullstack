@@ -1,14 +1,13 @@
-import { registrationSchema } from "@/schemas/registrationSchema";
+import { registrationSchemaLogin } from "@/schemas/registrationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-
+import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
 import { z } from "zod";
 
-type RegistrationData = z.infer<typeof registrationSchema>;
-export default function Register() {
+type RegistrationData = z.infer<typeof registrationSchemaLogin>;
+export default function Login() {
   const {
     handleSubmit,
     register,
@@ -16,42 +15,37 @@ export default function Register() {
   } = useForm<RegistrationData>({
     mode: "all",
     criteriaMode: "all",
-    resolver: zodResolver(registrationSchema),
+    resolver: zodResolver(registrationSchemaLogin),
     defaultValues: {
-      username: "",
       email: "",
       password: "",
-      role: "admin",
     },
   });
 
-  const routes = useRouter();
+  const router = useRouter();
+
   const handleSubmitForm = async (data: RegistrationData) => {
     // console.log("Oi sou  Data", data);
 
     try {
-      const response = await axios.post("http://localhost:3001/register", data);
-      console.log("Sucesso", response.data.token);
-
-      const token = response.data.token;
-      console.log(token);
-
-      if (token) {
-        localStorage.setItem("token", token);
-        routes.push("/tasks");
-      }
+      const token = localStorage.getItem("token");
+      const response = await axios.post("http://localhost:3001/login", data, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log("Sucesso", token, "response", response);
+      router.push("/tasks");
     } catch (error) {
       console.error("Erro ao registrar:", "data", data, "error", error);
     }
 
-    console.log(data);
+    // console.log(data);
   };
   return (
     <>
-      <h1> REGISTROS </h1>
+      <h1> LOGIN </h1>
       <form onSubmit={handleSubmit(handleSubmitForm)}>
-        <input type="text" placeholder="Name" {...register("username")} />
-        {errors.username && <p>{errors.username.message}</p>}
         <input type="email" placeholder="Email" {...register("email")} />
         {errors.email && <p>{errors.email.message}</p>}
         <input
@@ -60,7 +54,7 @@ export default function Register() {
           {...register("password")}
         />
         {errors.password && <p>{errors.password.message}</p>}
-        <button type="submit">Register</button>
+        <button type="submit">Sign In</button>
       </form>
     </>
   );

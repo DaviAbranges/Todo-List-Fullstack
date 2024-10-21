@@ -1,4 +1,4 @@
-import { IUsers } from "../interfaces/users/IUser";
+import { IUsers, UserWithToken } from "../interfaces/users/IUser";
 import { ServiceResponse } from "../interfaces/ServiceResponse";
 import { IUserModel } from "../interfaces/users/IUserModel";
 import UserModel from "../models/UserModel";
@@ -39,7 +39,7 @@ export default class UserServices {
 
   public async createUser(
     userData: Omit<IUsers, "id">
-  ): Promise<ServiceResponse<IUsers>> {
+  ): Promise<ServiceResponse<UserWithToken>> {
     const existingUser = await this.userModel.findByEmail(userData.email);
     if (existingUser) {
       return { status: "CONFLICT", data: { message: "Email already in use" } };
@@ -50,7 +50,15 @@ export default class UserServices {
       password: hashedPassword,
     });
 
-    return { status: "CREATED", data: newUser };
+    const payload = {
+      userId: newUser.id,
+      role: newUser.role,
+      email: newUser.email,
+    };
+    const secret = process.env.JWT_SECRET ?? "algum secret";
+    const token = jwt.sign(payload, secret, { expiresIn: "5h" });
+
+    return { status: "CREATED", data: { token, user: newUser } };
   }
 
   public async getById(id: number): Promise<ServiceResponse<IUsers>> {

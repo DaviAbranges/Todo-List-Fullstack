@@ -5,3 +5,8 @@ export interface IUsers {
   email: string;
   password: string;
 }
+
+export type UserWithToken = {
+  token: string;
+  user: IUsers;
+};
