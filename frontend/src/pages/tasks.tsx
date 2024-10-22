@@ -1,12 +1,13 @@
 import TaskTable from "@/components/TaskTable";
-import { TaskInterface } from "@/interface/TaskIterface";
+import { useTask } from "@/context/TaskContext";
+// import { ITasks } from "@/interface/TaskIterface";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function Tasks() {
   const router = useRouter();
-  const [tasks, setTasks] = useState<TaskInterface[]>([]);
+  const { tasks, setTasks } = useTask();
   const getAllTasks = async (token: string) => {
     try {
       const response = await axios.get("http://localhost:3001/tasks", {
@@ -36,7 +37,9 @@ export default function Tasks() {
     };
 
     authorizationUser();
-  }, [router]);
+  }, [router, getAllTasks]);
+
+  console.log("TASKS", tasks[0]);
 
   return <TaskTable tasks={tasks} />;
 }
