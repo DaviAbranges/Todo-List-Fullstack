@@ -2,7 +2,7 @@ import { registrationSchemaLogin } from "@/schemas/registrationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -24,22 +24,26 @@ export default function Login() {
 
   const router = useRouter();
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token == typeof "string") {
+      console.log("Nao tem token", token);
+      router.push("/tasks");
+    }
+  });
+
+  useEffect(() => {});
   const handleSubmitForm = async (data: RegistrationData) => {
     // console.log("Oi sou  Data", data);
-
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post("http://localhost:3001/login", data, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      console.log("Sucesso", token, "response", response);
+      const response = await axios.post("http://localhost:3001/login", data);
+      console.log("RESPOMNNSEEEesponse", response);
+      localStorage.setItem("token", response.data.token);
       router.push("/tasks");
     } catch (error) {
       console.error("Erro ao registrar:", "data", data, "error", error);
     }
-
     // console.log(data);
   };
   return (

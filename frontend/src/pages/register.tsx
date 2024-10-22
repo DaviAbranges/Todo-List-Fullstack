@@ -31,10 +31,10 @@ export default function Register() {
 
     try {
       const response = await axios.post("http://localhost:3001/register", data);
-      console.log("Sucesso", response.data.token);
+      // console.log("Sucesso", response.data.token);
 
       const token = response.data.token;
-      console.log(token);
+      // console.log(token);
 
       if (token) {
         localStorage.setItem("token", token);
@@ -44,7 +44,7 @@ export default function Register() {
       console.error("Erro ao registrar:", "data", data, "error", error);
     }
 
-    console.log(data);
+    // console.log(data);
   };
   return (
     <>
