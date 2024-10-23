@@ -55,7 +55,7 @@ export default function Register() {
           <h1 className="text-4xl font-bold mb-4">Olá, Amigo!</h1>
           <p className="mb-8 text-black dark:text-dark-fontColor">
             Crie sua conta e comece a gerenciar suas tarefas de forma simples e
-            eficiente. Estamos felizes em ter você a bordo!
+            eficiente. Estamos felizes em ter você aqui!
           </p>
           <form onSubmit={handleSubmit(handleSubmitForm)}>
             <div className="mb-4">

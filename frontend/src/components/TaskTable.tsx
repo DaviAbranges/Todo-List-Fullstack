@@ -29,32 +29,56 @@ export default function TaskTable({ tasks }: TaskTableProps) {
   };
   return (
     <>
-      <h1>Lista de Tarefas</h1>
-      <table>
+      <h1 className="text-2xl font-bold mb-4">Lista de Tarefas</h1>
+      <table className="min-w-full border border-gray-300">
         <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Status</th>
+          <tr className="bg-gray-100 dark:bg-gray-800">
+            <th className="py-2 px-4 border-b text-left text-purple-700">
+              Nome
+            </th>
+            <th className="py-2 px-4 border-b text-left text-purple-700">
+              Status
+            </th>
+            <th className="py-2 px-4 border-b text-center text-purple-700">
+              Ações
+            </th>
           </tr>
         </thead>
-        {/* if tasks.length for igual a zero então apece um botao grande crie uma nova task */}
         <tbody>
           {tasks.length === 0 ? (
             <tr>
-              <td colSpan={4}>
-                Nenhuma tarefa encontrada.{" "}
-                <button>Criar uma nova tarefa</button>
+              <td colSpan={3} className="text-center py-4">
+                Nenhuma tarefa encontrada.
               </td>
             </tr>
           ) : (
-            tasks.map((task) => (
-              <tr key={task.id}>
-                <td>{task.name}</td>
-                <td>{task.status}</td>
-                <td>
-                  <button onClick={() => setTaskToEdit(task)}>editar</button>
-                  <button onClick={() => handleRemoveTask(task)}>
-                    deletar
+            tasks.map((task, index) => (
+              <tr
+                key={task.id}
+                className={`${
+                  index % 2 === 0
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : "bg-gray-300 dark:bg-gray-600"
+                }`}
+              >
+                <td className="py-2 px-4 border-b text-left dark:text-white">
+                  {task.name}
+                </td>
+                <td className="py-2 px-4 border-b text-left dark:text-white">
+                  {task.status}
+                </td>
+                <td className="py-2 px-4 border-b flex gap-2 justify-center">
+                  <button
+                    className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                    onClick={() => setTaskToEdit(task)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                    onClick={() => handleRemoveTask(task)}
+                  >
+                    Deletar
                   </button>
                 </td>
               </tr>

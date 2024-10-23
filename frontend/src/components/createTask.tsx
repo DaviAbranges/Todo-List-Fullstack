@@ -71,23 +71,47 @@ export default function CreateTask() {
   };
   return (
     <>
-      {/* <h1>CreateTask</h1>; */}
-      <form onSubmit={handleSubmit(handleSubmitForm)}>
-        <input type="text" placeholder="Nome da Tarefa" {...register("name")} />
-        {errors.name && <span>{errors.name.message}</span>}
-        <select {...register("status")}>
-          {errors.status && <span>{errors.status.message}</span>}
-          <option value="pendente">pendente</option>
-          <option value="concluída">concluída</option>
-          <option value="em progresso">em progresso</option>
-        </select>
-        <button type="submit">
+      <form
+        onSubmit={handleSubmit(handleSubmitForm)}
+        className="w-full max-w-md mx-auto bg-white dark:bg-slate-700 p-8 rounded-lg shadow-md"
+      >
+        <div className="mb-4">
+          <h1 className="text-xl font-bold text-center mb-6 dark:text-white">
+            Crei uma nova Tarefa
+          </h1>
+          <input
+            type="text"
+            placeholder="Nome da Tarefa"
+            {...register("name")}
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:border-purple-500 dark:focus:border-purple-400"
+          />
+          {errors.name && (
+            <span className="text-red-600">{errors.name.message}</span>
+          )}
+        </div>
+        <div className="mb-4">
+          <select
+            {...register("status")}
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:border-purple-500 dark:focus:border-purple-400"
+          >
+            <option value="pendente">Pendente</option>
+            <option value="concluída">Concluída</option>
+            <option value="em progresso">Em Progresso</option>
+          </select>
+          {errors.status && (
+            <span className="text-red-600">{errors.status.message}</span>
+          )}
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-purple-700 text-white py-2 rounded-lg hover:bg-purple-800 transition-colors"
+        >
           {taskToEdit ? "Atualizar Tarefa" : "Criar Tarefa"}
         </button>
-        {errorMessage && <p className="text-red-600">{errorMessage}</p>}
+        {errorMessage && (
+          <p className="text-red-600 mt-4 text-center">{errorMessage}</p>
+        )}
       </form>
-
-      <button onClick={() => localStorage.removeItem("token")}>Logout</button>
     </>
   );
 }
