@@ -1,12 +1,32 @@
+import { useTask } from "@/context/TaskContext";
 import { ITasks } from "../interface/TaskIterface";
+import { useRouter } from "next/router";
+import axios from "axios";
 
 interface TaskTableProps {
   tasks: ITasks[];
 }
 
 export default function TaskTable({ tasks }: TaskTableProps) {
-  console.log("tasks Table", tasks);
+  // console.log("tasks Table", tasks);
+  const router = useRouter();
+  const { setTaskToEdit, removeTask } = useTask();
+  const handleRemoveTask = async (data: ITasks) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/");
+    }
 
+    const response = await axios.delete(
+      `http://localhost:3001/tasks/${data.id}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    removeTask(response.data);
+  };
   return (
     <>
       <h1>Lista de Tarefas</h1>
@@ -32,8 +52,10 @@ export default function TaskTable({ tasks }: TaskTableProps) {
                 <td>{task.name}</td>
                 <td>{task.status}</td>
                 <td>
-                  <button>editar</button>
-                  <button>deletar</button>
+                  <button onClick={() => setTaskToEdit(task)}>editar</button>
+                  <button onClick={() => handleRemoveTask(task)}>
+                    deletar
+                  </button>
                 </td>
               </tr>
             ))

@@ -20,14 +20,14 @@ export default class UserServices {
     if (!user) {
       return {
         status: "UNAUTHORIZED",
-        data: { message: "SERVICE Invalid email or password" },
+        data: { message: "Email  e/ou senha inválido(s)" },
       };
     }
 
     if (!bcrypt.compareSync(password, user.password)) {
       return {
         status: "UNAUTHORIZED",
-        data: { message: "SERVICE Invalid email or password" },
+        data: { message: "Email  e/ou senha inválido(s)" },
       };
     }
     const payload = { userId: user.id, role: user.role, email: user.email };
@@ -42,7 +42,7 @@ export default class UserServices {
   ): Promise<ServiceResponse<UserWithToken>> {
     const existingUser = await this.userModel.findByEmail(userData.email);
     if (existingUser) {
-      return { status: "CONFLICT", data: { message: "Email already in use" } };
+      return { status: "CONFLICT", data: { message: "Email já está em uso." } };
     }
     const hashedPassword = bcrypt.hashSync(userData.password, 10);
     const newUser = await this.userModel.createUser({

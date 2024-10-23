@@ -5,20 +5,33 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useTask } from "@/context/TaskContext";
+import { useEffect } from "react";
 
 type RegistrationTask = z.infer<typeof taskSchema>;
 
 export default function CreateTask() {
   const router = useRouter();
-  const { saveNewTask } = useTask();
+  const { saveNewTask, taskToEdit, editTask, handleAxiosError, errorMessage } =
+    useTask();
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors },
   } = useForm<RegistrationTask>({
+    reValidateMode: "onSubmit",
     resolver: zodResolver(taskSchema),
   });
+
+  useEffect(() => {
+    if (taskToEdit) {
+      setValue("name", taskToEdit.name);
+      setValue("status", taskToEdit.status);
+    } else {
+      reset();
+    }
+  }, [setValue, reset, taskToEdit]);
 
   const handleSubmitForm = async (data: RegistrationTask) => {
     try {
@@ -27,17 +40,33 @@ export default function CreateTask() {
         router.push("/");
         return;
       }
+      if (taskToEdit) {
+        const response = await axios.put(
+          `http://localhost:3001/tasks/${taskToEdit.id}`,
+          data,
+          {
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      const response = await axios.post("http://localhost:3001/tasks", data, {
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-      });
-      saveNewTask(response.data);
-      reset();
+        editTask(response.data);
+      } else {
+        console.log(data);
+
+        const response = await axios.post("http://localhost:3001/tasks", data, {
+          headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+          },
+        });
+        saveNewTask(response.data);
+        reset();
+      }
     } catch (error) {
-      console.error("Erro ao criar tarefa", error);
+      handleAxiosError(error);
     }
   };
   return (
@@ -48,11 +77,14 @@ export default function CreateTask() {
         {errors.name && <span>{errors.name.message}</span>}
         <select {...register("status")}>
           {errors.status && <span>{errors.status.message}</span>}
-          <option value="">pendente</option>
-          <option value="">concluída</option>
-          <option value="">em progresso</option>
+          <option value="pendente">pendente</option>
+          <option value="concluída">concluída</option>
+          <option value="em progresso">em progresso</option>
         </select>
-        <button type="submit">Criar Tarefa</button>
+        <button type="submit">
+          {taskToEdit ? "Atualizar Tarefa" : "Criar Tarefa"}
+        </button>
+        {errorMessage && <p className="text-red-600">{errorMessage}</p>}
       </form>
     </>
   );

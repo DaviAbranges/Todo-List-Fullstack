@@ -6,15 +6,20 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Link from "next/link";
 import { registrationSchemaLogin } from "@/schemas/registrationSchema"; // Esquema de validação
+import { useTask } from "@/context/TaskContext";
 
 type RegistrationData = z.infer<typeof registrationSchemaLogin>;
 
 export default function Login() {
+  const { handleAxiosError, errorMessage } = useTask();
+
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<RegistrationData>({
+    mode: "all",
+    reValidateMode: "onChange",
     resolver: zodResolver(registrationSchemaLogin),
   });
 
@@ -33,7 +38,7 @@ export default function Login() {
       localStorage.setItem("token", response.data.token);
       router.push("/tasks");
     } catch (error) {
-      console.error("Erro ao fazer login:", error);
+      handleAxiosError(error);
     }
   };
 
@@ -66,6 +71,7 @@ export default function Login() {
           >
             Sign In
           </button>
+          {errorMessage && <p className="text-red-600">{errorMessage}</p>}
         </form>
         <p className="mt-4 text-center">
           Não tem uma conta?{" "}

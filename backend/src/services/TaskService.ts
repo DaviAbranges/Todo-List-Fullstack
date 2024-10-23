@@ -15,16 +15,18 @@ export default class TaskService {
 
   public async create(
     name: string,
-    userId: number
+    userId: number,
+    status: string
   ): Promise<ServiceResponse<ITasks>> {
     const createdAt = new Date();
-    const status = "pending";
+
     const newTask = await this.taskModel.create({
       name,
       status,
       createdAt,
       userId,
     });
+    // console.log("SERVICE", status);
 
     return { status: "SUCCESSFUL", data: newTask };
   }
@@ -37,7 +39,10 @@ export default class TaskService {
     // console.log("resultado getbyid", user);
 
     if (!user) {
-      return { status: "NOT_FOUND", data: { message: "Task nosdat found" } };
+      return {
+        status: "NOT_FOUND",
+        data: { message: "Tarefa não encontrada" },
+      };
     }
 
     return { status: "SUCCESSFUL", data: user };
@@ -51,7 +56,10 @@ export default class TaskService {
   ): Promise<ServiceResponse<ITasks>> {
     const task = await this.taskModel.findById(id, userId);
     if (!task) {
-      return { status: "NOT_FOUND", data: { message: "Task not found" } };
+      return {
+        status: "NOT_FOUND",
+        data: { message: "Tarefa não encontrada" },
+      };
     }
 
     const updatedTask = await this.taskModel.update(
@@ -68,13 +76,16 @@ export default class TaskService {
   ): Promise<ServiceResponse<{ message: string }>> {
     const task = await this.taskModel.findById(id, userId);
     if (!task) {
-      return { status: "NOT_FOUND", data: { message: "Task not found" } };
+      return {
+        status: "NOT_FOUND",
+        data: { message: "Tarefa não encontrada" },
+      };
     }
 
     await this.taskModel.delete(id, userId);
     return {
       status: "SUCCESSFUL",
-      data: { message: "Task deleted successfully" },
+      data: { message: "Tarefa deletada com sucesso" },
     };
   }
 }

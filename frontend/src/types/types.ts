@@ -5,12 +5,24 @@ export type taskContextType = {
   saveNewTask: (newTask: ITasks) => void;
   tasks: ITasks[];
   setTasks: (tasks: ITasks[]) => void;
+  editTask: (taskUpdate: ITasks) => void;
+  setTaskToEdit: (taskUpdate: ITasks | null) => void;
+  taskToEdit: ITasks | null;
+  removeTask: (task: ITasks) => void;
+  handleAxiosError: (error: unknown) => void;
+  errorMessage: string;
 };
 
 export const taskContextDefaultValue: taskContextType = {
   saveNewTask: () => {},
   tasks: [],
   setTasks: () => {},
+  setTaskToEdit: () => {},
+  editTask: () => {},
+  taskToEdit: null,
+  removeTask: () => {},
+  handleAxiosError: () => {},
+  errorMessage: "",
 };
 
 export type TaskStatus = "pending" | "completed" | "in Progress";

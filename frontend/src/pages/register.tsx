@@ -5,16 +5,25 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { registrationSchema } from "@/schemas/registrationSchema"; // Esquema de validação
-
+import { useTask } from "@/context/TaskContext";
 type RegistrationData = z.infer<typeof registrationSchema>;
 
 export default function Register() {
+  const { handleAxiosError, errorMessage } = useTask();
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<RegistrationData>({
+    mode: "all",
+    criteriaMode: "all",
     resolver: zodResolver(registrationSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      role: "admin",
+    },
   });
 
   const router = useRouter();
@@ -25,7 +34,8 @@ export default function Register() {
       localStorage.setItem("token", response.data.token);
       router.push("/tasks");
     } catch (error) {
-      console.error("Erro ao registrar:", error);
+      handleAxiosError(error);
+      console.log("kaods", errorMessage);
     }
   };
 
@@ -67,6 +77,7 @@ export default function Register() {
           >
             Register
           </button>
+          {errorMessage && <p className="text-red-600">{errorMessage}</p>}
         </form>
         <p className="mt-4 text-center">
           Já tem uma conta?{" "}
