@@ -11,6 +11,8 @@ export type taskContextType = {
   removeTask: (task: ITasks) => void;
   handleAxiosError: (error: unknown) => void;
   errorMessage: string;
+  theme: string;
+  toggleTheme: () => void;
 };
 
 export const taskContextDefaultValue: taskContextType = {
@@ -23,6 +25,8 @@ export const taskContextDefaultValue: taskContextType = {
   removeTask: () => {},
   handleAxiosError: () => {},
   errorMessage: "",
+  theme: "",
+  toggleTheme: () => {},
 };
 
 export type TaskStatus = "pending" | "completed" | "in Progress";

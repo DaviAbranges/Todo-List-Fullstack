@@ -1,6 +1,6 @@
 import { ITasks } from "@/interface/TaskIterface";
 import { taskContextDefaultValue, taskContextType } from "@/types/types";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { createContext, useContext } from "react";
 import { AxiosError } from "axios";
 
@@ -18,6 +18,15 @@ export function TaskProvider({ children }: Props) {
   const [tasks, setTasks] = useState<ITasks[]>([]);
   const [taskToEdit, setTaskToEdit] = useState<ITasks | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [theme, setTheme] = useState("");
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+      setTheme(storedTheme);
+      document.documentElement.classList.add(storedTheme);
+    }
+  }, []);
 
   const saveNewTask = (newTask: ITasks) => {
     setTasks([...tasks, newTask]);
@@ -48,6 +57,18 @@ export function TaskProvider({ children }: Props) {
     }
   };
 
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+
+    if (newTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  };
+
   const value = {
     saveNewTask,
     tasks,
@@ -58,6 +79,8 @@ export function TaskProvider({ children }: Props) {
     removeTask,
     handleAxiosError,
     errorMessage,
+    toggleTheme,
+    theme,
   };
 
   return (

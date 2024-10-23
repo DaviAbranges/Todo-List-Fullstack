@@ -86,6 +86,8 @@ export default function CreateTask() {
         </button>
         {errorMessage && <p className="text-red-600">{errorMessage}</p>}
       </form>
+
+      <button onClick={() => localStorage.removeItem("token")}>Logout</button>
     </>
   );
 }

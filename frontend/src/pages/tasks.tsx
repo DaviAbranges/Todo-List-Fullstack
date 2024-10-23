@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import CreateTask from "../components/createTask";
+import ThemeToggleButton from "@/components/themeToggkeButton";
 
 export default function Tasks() {
   const router = useRouter();
@@ -45,6 +46,7 @@ export default function Tasks() {
   return (
     <>
       <CreateTask />
+      <ThemeToggleButton />
       <TaskTable tasks={tasks} />
       {errorMessage && <p className="text-red-600">{errorMessage}</p>}
     </>
