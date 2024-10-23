@@ -1,5 +1,9 @@
 import { ITasks } from "@/interface/TaskIterface";
-import { taskContextDefaultValue, taskContextType } from "@/types/types";
+import {
+  taskContextDefaultValue,
+  taskContextType,
+  TaskStatus,
+} from "@/types/types";
 import { ReactNode, useState } from "react";
 import { createContext, useContext } from "react";
 
@@ -19,10 +23,19 @@ export function TaskProvider({ children }: Props) {
   const saveNewTask = (newTask: ITasks) => {
     setTasks([...tasks, newTask]);
   };
+
+  const editTask = (id: number, name: string, status: TaskStatus) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id ? { ...task, name, status } : task
+      )
+    );
+  };
   const value = {
     saveNewTask,
     tasks,
     setTasks,
+    editTask,
   };
 
   return (

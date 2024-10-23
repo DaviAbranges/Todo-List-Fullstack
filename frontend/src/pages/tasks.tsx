@@ -4,6 +4,7 @@ import { useTask } from "@/context/TaskContext";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import CreateTask from "../components/createTask";
 
 export default function Tasks() {
   const router = useRouter();
@@ -41,5 +42,10 @@ export default function Tasks() {
 
   console.log("TASKS", tasks[0]);
 
-  return <TaskTable tasks={tasks} />;
+  return (
+    <>
+      <CreateTask />
+      <TaskTable tasks={tasks} />
+    </>
+  );
 }

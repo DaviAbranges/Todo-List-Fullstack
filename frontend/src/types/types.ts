@@ -12,3 +12,5 @@ export const taskContextDefaultValue: taskContextType = {
   tasks: [],
   setTasks: () => {},
 };
+
+export type TaskStatus = "pending" | "completed" | "in Progress";

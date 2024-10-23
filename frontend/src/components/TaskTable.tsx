@@ -13,7 +13,6 @@ export default function TaskTable({ tasks }: TaskTableProps) {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
             <th>Nome</th>
             <th>Status</th>
           </tr>
@@ -30,7 +29,6 @@ export default function TaskTable({ tasks }: TaskTableProps) {
           ) : (
             tasks.map((task) => (
               <tr key={task.id}>
-                <td>{task.id}</td>
                 <td>{task.name}</td>
                 <td>{task.status}</td>
                 <td>
