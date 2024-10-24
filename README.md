@@ -59,21 +59,21 @@ npm install
 
 ### Frontend
 
-6. Instale as dependências do frontend:
+4. Instale as dependências do frontend:
 
 ```bash
 cd frontend
 npm install
 ```
 
-3. Suba o ambiente Docker (para MySQL):
+5. Suba o ambiente Docker (para MySQL):
 
 ```bash
 docker-compose up -d
 ```
 
 
-8. Acesse a aplicação no navegador:
+6. Acesse a aplicação no navegador:
 
 ```
 http://localhost:3000
