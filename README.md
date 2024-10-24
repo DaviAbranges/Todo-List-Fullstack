@@ -50,23 +50,11 @@ DB_NAME=nome_do_banco
 PORT=3001
 ```
 
-3. Suba o ambiente Docker (para MySQL):
-
-```bash
-docker-compose up -d
-```
-
-4. Instale as dependências do backend:
+3. Instale as dependências do backend:
 
 ```bash
 cd backend
 npm install
-```
-
-5. Execute o servidor backend:
-
-```bash
-npm run dev
 ```
 
 ### Frontend
@@ -78,11 +66,12 @@ cd frontend
 npm install
 ```
 
-7. Execute o servidor frontend:
+3. Suba o ambiente Docker (para MySQL):
 
 ```bash
-npm run dev
+docker-compose up -d
 ```
+
 
 8. Acesse a aplicação no navegador:
 
