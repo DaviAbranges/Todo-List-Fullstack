@@ -1,22 +1,17 @@
-# Usar a imagem node:16.14-alpine como base
-FROM node:16.14-alpine
+FROM node:18.17-alpine
 
-# Mudar para o diretório de trabalho /app-frontend
+# Defina o diretório de trabalho
 WORKDIR /app-frontend
 
-# Copiar os package.json e package-lock.json para o container
+# Copie os arquivos de dependência
 COPY package*.json ./
 
-# Instalar as dependências Node
+# Limpe o cache do NPM e instale as dependências
 RUN npm install
 
-# Copiar o restante dos arquivos da aplicação para o container
+# Copie o restante do código da aplicação
 COPY . .
 
-# Sinalize que a aplicação expõe a porta 3000
+# Exponha a porta e defina o comando de início
 EXPOSE 3000
-
-# Configurar os comandos para iniciar a aplicação de acordo com as boas práticas
-ENTRYPOINT [ "npm", "run"]
-
-CMD [ "start" ]
+CMD ["npm", "run", "dev"]

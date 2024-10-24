@@ -13,6 +13,9 @@ export default class UserController {
 
   public async createUser(req: Request, res: Response) {
     const { username, role, email, password } = req.body;
+
+    console.log(req.body);
+
     const response = await this.userService.createUser({
       username,
       role,

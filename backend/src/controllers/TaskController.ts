@@ -21,9 +21,13 @@ export default class TaskController {
 
   public async create(req: CustomRequest, res: Response, next: NextFunction) {
     try {
-      const { name } = req.body;
+      const { name, status } = req.body;
       const { id: userId } = req.user!;
-      const response = await this.taskService.create(name, userId);
+      // console.log("CONTROLER", status);
+
+      const response = await this.taskService.create(name, userId, status);
+      // console.log("CONRES", response);
+
       res.status(mapStatusHTTP(response.status)).json(response.data);
     } catch (error) {
       next(error);
